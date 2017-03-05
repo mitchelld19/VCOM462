@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+            <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+    <script>
+      function initMap() {
+
+        if (navigator.geolocation) { //Checks if browser supports geolocation
+           navigator.geolocation.getCurrentPosition(function (position) {        //This gets the
+             var latitude = position.coords.latitude;                    //users current
+             var longitude = position.coords.longitude;                 //location
+             coords = new google.maps.LatLng(latitude, longitude); //Creates variable for map coordinates
+
+             if(document.getElementById("end").value == "thomson")
+             {
+               end = new google.maps.LatLng(34.942015, -81.033072);
+             }
+             else if(document.getElementById("end").value == "rutledge")
+             {
+               end = new google.maps.LatLng(34.936884, -81.029561);
+             }
+             else if(document.getElementById("end").value == "roddey")
+             {
+               end = new google.maps.LatLng(34.936800, -81.030071);
+             }
+             else if(document.getElementById("end").value == "johnson")
+             {
+               end = new google.maps.LatLng(34.936488, -81.030899);
+             }
+
+
+
+             directionsService = new google.maps.DirectionsService();
+             directionsDisplay = new google.maps.DirectionsRenderer();
+
+             var mapOptions = //Sets map options
+             {
+               zoom: 15,  //Sets zoom level (0-21)
+               center: coords, //zoom in on users location
+               mapTypeControl: true, //allows you to select map type eg. map or satellite
+               navigationControlOptions:
+               {
+                 style: google.maps.NavigationControlStyle.SMALL //sets map controls size eg. zoom
+               },
+               mapTypeId: google.maps.MapTypeId.ROADMAP //sets type of map Options:ROADMAP, SATELLITE, HYBRID, TERRIAN
+             };
+             var map = new google.maps.Map( /*creates Map variable*/ document.getElementById("map"), mapOptions /*Creates a new map using the passed optional parameters in the mapOptions parameter.*/);
+
+             directionsDisplay.setMap(map);
+            //  directionsDisplay.setPanel(document.getElementById('panel'));
+            directionsDisplay.setPanel(document.getElementById("directions"));
+            //  var request = {
+            //    origin: coords,
+            //    destination: thomson,
+            //    travelMode: google.maps.DirectionsTravelMode.DRIVING
+            //  };
+
+            //  directionsService.route(request, function (response, status) {
+            //    if (status == google.maps.DirectionsStatus.OK) {
+            //      directionsDisplay.setDirections(response);
+            //    }
+            //  });
+          });
+         }
+       }
+       function calculateRoute(){
+         var request = {
+           origin: coords,
+           destination: end,
+           travelMode: google.maps.DirectionsTravelMode.WALKING
+         };
+
+         directionsService.route(request, function (response, status) {
+           if (status == google.maps.DirectionsStatus.OK) {
+             directionsDisplay.setDirections(response);
+             $("#results").show();
+           }
+           else {
+               $("#results").hide();
+           }
+         });
+       }
+    </script>
+  </head>
+  <body>
+    <div data-role="page" id="map_page">
+      <div data-role="header">
+          <h1><a href="#">jQuery mobile - Google maps directions service</h1>
+      </div>
+      <div data-role="content">
+        <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+          <div id="map" style="height:300px;"></div>
+          <div data-role="fieldcontain">
+              <label for="from">From</label>
+              <select id="end">
+                <option value="thomson">Thomson</option>
+                <option value="roddey">Roddey</option>
+                <option value="rutledge">Rutledge</option>
+                <option value="johnson">Johnson</option>
+              </select>
+          </div>
+          <a data-icon="search" data-role="button" href="#" id="submit" onclick="calculateRoute()">Get directions</a>
+        </div>
+        <div id="results" style="display:none;">
+            <div id="directions"></div>
+        </div>
+        <!-- <div id="floating-panel">
+        <b>Start: </b>
+
+        <b>End: </b>
+        <select id="end">
+          <option value="thomson">Thomson</option>
+          <option value="roddey">Roddey</option>
+          <option value="rutledge">Rutledge</option>
+          <option value="johnson">Johnson</option>
+        </select>
+        </div>
+        <div id="map"></div> -->
+      </div>
+    </div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN1S1ntN9u-IbHl8DSYdIN7dOkPxXgnVw&callback=initMap">
+    </script>
+  </body>
+</html>

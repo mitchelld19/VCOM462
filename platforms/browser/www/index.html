@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="css/default.css" />
+    <link rel="stylesheet" href="css/slideout.css" />
+    <link rel="stylesheet" href="css/index.css" />
+
+    <script
+  src="https://code.jquery.com/jquery-1.8.0.min.js" integrity="sha256-jFdOCgY5bfpwZLi0YODkqNXQdIxKpm6y5O/fy0baSzE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="js/googleMap.js"></script>
+    <script src="js/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+    <!-- <script src="js/index.js"></script> -->
+  </head>
+  <body>
+    <div data-role="page" id="map_page">
+      <main id="panel">
+        <div data-role="header">
+              <img src="img/wuCutLogo.png" class="toggle-button">
+                <a href="#popupDialog" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="pop">Button</a>
+                <div id="flex-container">
+
+                  <div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="c">
+                    <img src="img/wuModal.png" id="wuModal">
+              			<div data-role="header" data-theme="a" class="ui-corner-top">
+                      <h1>You have Arrived</h1>
+                      <a href="#" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b" id="modalClose" class="ui-btn-right">X</a>
+              			</div>
+              			<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                      <div id="modalBuildingTitle">
+                        <h2>Rutledge</h2>
+                        <img class="modalImg" src="img/rutledge.jpg">
+                        <p>Suspendisse vitae sapien sagittis, fermentum metus in, vehicula metus. Praesent ex lorem, imperdiet ac lectus nec, convallis pretium ante. Cras ullamcorper, elit eget gravida luctus, magna nisi interdum odio, a dapibus libero nisi et lorem. Suspendisse ut orci at libero aliquet bibendum pharetra a dui. Donec facilisis, nisl in fermentum tincidunt, lacus lectus malesuada odio, vitae vehicula elit quam in ligula. Morbi accumsan, neque id iaculis vehicula, nunc augue rhoncus ex, ut varius mauris elit commodo arcu. Proin congue, justo efficitur tincidunt commodo, turpis nunc elementum ligula, fermentum ultricies odio libero ac enim. </p>
+                      </div>
+                      <div class="modalContainer">
+                        <h3>Majors in this Building</h3>
+                        <ul>
+                          <li>Sed pellentesque nulla eget augue sodales sodales.</li>
+                          <li>Vestibulum sollicitudin enim sit amet consectetur iaculis.</li>
+                          <li>Sed tristique mauris sit amet ullamcorper placerat.</li>
+                          <li>Donec ullamcorper ante vel diam aliquam, sit amet varius tortor aliquet.</li>
+                          <li>Sed fermentum tortor sed sem ultrices, sit amet blandit justo volutpat.</li>
+                          <li>Morbi commodo purus vitae felis ultricies mollis vel ac ante.</li>
+                        </ul>
+                      </div>
+                      <div class="modalContainer">
+                        <h3>Classes taught in this building</h3>
+                        <ul>
+                          <li>Sed pellentesque nulla eget augue sodales sodales.</li>
+                          <li>Vestibulum sollicitudin enim sit amet consectetur iaculis.</li>
+                          <li>Sed tristique mauris sit amet ullamcorper placerat.</li>
+                          <li>Donec ullamcorper ante vel diam aliquam, sit amet varius tortor aliquet.</li>
+                          <li>Sed fermentum tortor sed sem ultrices, sit amet blandit justo volutpat.</li>
+                          <li>Morbi commodo purus vitae felis ultricies mollis vel ac ante.</li>
+                        </ul>
+                      </div>
+              			</div>
+            		 </div>
+              </div>
+        </div>
+        <div id="map" data-slideout-ignore></div>
+      </main>
+      <nav id="menu">
+        <!-- <img src="img/border.png"> -->
+        <h2>WULocator</h2>
+        <div id="navContent">
+          <div data-role="fieldcontain">
+              <label for="end">Select a Building:</label>
+              <select id="end">
+                <option value="thomson">Thomson</option>
+                <option value="roddey">Roddey</option>
+                <option value="rutledge">Rutledge</option>
+                <option value="johnson">Johnson</option>
+              </select>
+          </div>
+          <a data-role="button" href="#" id="submit" onclick="calculateRoute()">Get directions</a>
+
+          <div id="winthropUniversity">
+            <h3>Winthrop University</h3>
+            <img class="descriptionImg" src="img/wu.jpg" alt="Winthrop University">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dignissim malesuada lacinia. Nulla aliquam odio lectus, vel egestas nulla hendrerit quis. Sed laoreet metus at tortor malesuada commodo. Sed feugiat bibendum risus vitae rhoncus. Aliquam ornare sem sit amet arcu ultricies, sit amet blandit urna convallis. Curabitur fermentum ex in laoreet blandit. Nulla in ipsum at metus iaculis interdum in ut libero. Fusce at neque laoreet, euismod turpis in, blandit sem. In pharetra pharetra purus at pulvinar. Fusce eu ante eros. Fusce at blandit diam. </p>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN1S1ntN9u-IbHl8DSYdIN7dOkPxXgnVw&callback=initMap">
+    </script>
+    <script src="js/dist/slideout.min.js"></script>
+    <script>
+      var slideout = new Slideout({
+        'panel': document.getElementById('panel'),
+        'menu': document.getElementById('menu'),
+        'padding': 330,
+        'tolerance': 70,
+        'side': 'right'
+      });
+
+      // Toggle button
+      document.querySelector('.toggle-button').addEventListener('click', function() {
+        slideout.toggle();
+      });
+    </script>
+  </body>
+</html>
